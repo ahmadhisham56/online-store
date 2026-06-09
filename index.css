@@ -1,0 +1,45 @@
+import type { Product } from "../data/products";
+import { formatINR } from "../utils/format";
+
+type Props = {
+  product: Product;
+  onClick: () => void;
+};
+
+export default function ProductCard({ product, onClick }: Props) {
+  return (
+    <button
+      onClick={onClick}
+      className="group flex flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white text-left transition hover:-translate-y-1 hover:shadow-xl hover:shadow-zinc-200"
+    >
+      <div className="relative aspect-square overflow-hidden bg-zinc-50">
+        {product.badge && (
+          <span className="absolute left-3 top-3 z-10 rounded-full bg-black px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white">
+            {product.badge}
+          </span>
+        )}
+        <img
+          src={product.image}
+          alt={`${product.name} ${product.subtitle}`}
+          className="h-full w-full object-contain p-4 transition-transform duration-500 group-hover:scale-105"
+          loading="lazy"
+        />
+      </div>
+      <div className="flex flex-1 flex-col gap-1 p-4">
+        <p className="text-[11px] font-semibold uppercase tracking-wider text-zinc-400">
+          {product.brand}
+        </p>
+        <h3 className="text-sm font-bold text-black">{product.name}</h3>
+        <p className="text-xs text-zinc-500">{product.subtitle}</p>
+        <div className="mt-3 flex items-baseline gap-2">
+          <span className="text-base font-black text-black">
+            {formatINR(product.price)}
+          </span>
+          <span className="text-xs text-zinc-400 line-through">
+            {formatINR(product.retail)}
+          </span>
+        </div>
+      </div>
+    </button>
+  );
+}

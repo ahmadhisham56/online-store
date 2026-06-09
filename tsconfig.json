@@ -1,0 +1,29 @@
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import "./index.css";
+import App from "./App";
+
+// Remove any Arena watermark that might be injected
+const removeArenaWatermark = () => {
+  const selectors = [
+    '[id*="arena"]',
+    '[class*="arena"]',
+    '[data-arena]',
+    '[src*="arena"]',
+    'iframe[src*="arena"]',
+  ];
+  selectors.forEach((sel) => {
+    document.querySelectorAll(sel).forEach((el) => el.remove());
+  });
+};
+
+removeArenaWatermark();
+setInterval(removeArenaWatermark, 1000);
+const observer = new MutationObserver(removeArenaWatermark);
+observer.observe(document.body, { childList: true, subtree: true });
+
+createRoot(document.getElementById("root")!).render(
+  <StrictMode>
+    <App />
+  </StrictMode>
+);
